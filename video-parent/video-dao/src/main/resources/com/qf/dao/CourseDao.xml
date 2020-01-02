@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.dao.CourseDao">
+    <resultMap type="com.qf.entity.Course" id="mappingCS">
+        <id property="id" column="id"/>
+        <association property="subject" javaType="com.qf.entity.Subject">
+            <id property="id" column="id"/>
+        </association>
+    </resultMap>
+    <select id="getAllCourse" resultMap="mappingCS">
+        select * from course,subject
+        where course.subject_id=subject.id
+        <if test="start != null">
+            limit #{start}, #{rows}
+        </if>
+    </select>
+    <select id="getCountCourse" resultType="int">
+        select count(1) from course
+    </select>
+    <insert id="addCount">
+        insert into course
+        (course_title,course_desc,subject_id)
+        values
+        (#{course_title},#{course_desc},#{subject_id})
+    </insert>
+    <select id="getCourseById" resultType="Course">
+        select * from course where id = #{id}
+    </select>
+    <update id="updateCourseById">
+        update course set
+        <if test="course_title !=null and course_title != ''">
+            `course_title` = #{course_title},
+        </if>
+        <if test="course_desc !=null and course_desc != ''">
+            `course_desc` = #{course_desc},
+        </if>
+        <if test="subject_id !=null and subject_id != ''">
+            `subject_id` = #{subject_id},
+        </if>
+        where id = #{id}
+    </update>
+    <delete id="delCoureById">
+        delete from course where id = #{id}
+    </delete>
+    <select id="getCourseBySubject_id" resultType="Course">
+        select * from course where subject_id=#{subject_id}
+    </select>
+    <resultMap type="com.qf.entity.Course" id="mappingCVS">
+        <id property="id" column="cid"/>
+        <collection property="videoList" ofType="com.qf.entity.Video">
+            <id property="id" column="vid"/>
+            <association property="speaker" javaType="com.qf.entity.Speaker">
+                <id property="id" column="sid"/>
+            </association>
+        </collection>
+    </resultMap>
+    <select id="getCourseAndSpreaker" resultMap="mappingCVS">
+        select
+        c.id cid,c.*,
+        v.id vid,v.*,
+        s.id sid,s.*
+        from course c,video v,speaker s
+        where v.course_id=#{course_id}
+        and v.course_id=c.id
+        and v.speaker_id=s.id
+    </select>
+
+</mapper>

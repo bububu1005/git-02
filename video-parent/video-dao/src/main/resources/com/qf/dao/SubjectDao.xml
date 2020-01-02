@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.dao.SubjectDao">
+    <select id="getAllSubject" resultType="Subject">
+        select * from subject
+    </select>
+    <resultMap type="com.qf.entity.Subject" id="mappingSCV">
+        <id property="id" column="sid"/>
+        <collection property="courseList" ofType="com.qf.entity.Course">
+            <id property="id" column="cid"/>
+            <collection property="videoList" ofType="com.qf.entity.Video">
+                <id property="id" column="vid"/>
+            </collection>
+        </collection>
+    </resultMap>
+    <select id="getSubjectAndCourseAndVideo" resultMap="mappingSCV">
+        select
+        s.id sid,s.*,
+        c.id cid,c.*,
+        v.id vid,v.*
+        from subject s,course c,video v
+        where s.id=#{subject_id}
+        and c.subject_id=s.id
+        and v.course_id=c.id
+    </select>
+</mapper>

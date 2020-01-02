@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.dao.SpeakerDao">
+    <select id="getAllSpeaker" resultType="com.qf.entity.Speaker">
+        select * from speaker where 1 = 1
+        <if test="start != null">
+            limit #{start}, #{rows}
+        </if>
+    </select>
+    <select id="getCountSpeaker" resultType="Integer">
+        select count(1) from speaker
+    </select>
+    <insert id="addSpeaker">
+        insert into speaker (speaker_name,speaker_desc,speaker_job,head_img_url)
+        values
+        (#{speaker_name},#{speaker_desc},#{speaker_job},#{head_img_url})
+    </insert>
+    <select id="getSpeakerById" resultType="Speaker">
+        select * from speaker where id = #{id}
+    </select>
+    <update id="updateSpeakerById">
+        update `speaker` set
+        <if test="speaker_name !=null and speaker_name != ''">
+            `speaker_name` = #{speaker_name},
+        </if>
+        <if test="speaker_desc !=null and speaker_desc != ''">
+            `speaker_desc` = #{speaker_desc},
+        </if>
+        <if test="speaker_job !=null and speaker_job != ''">
+            `speaker_job` = #{speaker_job},
+        </if>
+        <if test="head_img_url !=null and head_img_url != ''">
+            `head_img_url` = #{head_img_url}
+        </if>
+             `id` = #{id}
+        where `id` = #{id}
+    </update>
+    <delete id="delSpeakerById">
+        delete from speaker where id = #{id}
+    </delete>
+
+</mapper>

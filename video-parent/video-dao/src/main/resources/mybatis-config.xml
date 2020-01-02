@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "mybatis-3-config.dtd" >
+<configuration>
+
+    <settings>
+        <setting name="autoMappingBehavior" value="FULL" />
+    </settings>
+    
+    <typeAliases >
+        <package name="com.qf.entity"/>
+    </typeAliases>
+
+    <mappers>
+        <mapper resource="com/qf/dao/AdminDao.xml"/>
+        <mapper resource="com/qf/dao/SpeakerDao.xml"/>
+        <mapper resource="com/qf/dao/VideoDao.xml"/>
+        <mapper resource="com/qf/dao/CourseDao.xml"/>
+        <mapper resource="com/qf/dao/SubjectDao.xml"/>
+        <mapper resource="com/qf/dao/UserDao.xml"/>
+    </mappers>
+
+</configuration>

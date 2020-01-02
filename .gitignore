@@ -1,6 +1,0 @@
-# Project exclude paths
-/video-parent/video-dao/target/
-/video-parent/video-pojo/target/
-/video-parent/video-service/target/
-/video-parent/video-util/target/
-/video-parent/video-web/target/

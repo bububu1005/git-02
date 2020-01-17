@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qf.mapper.CarMapper">
+    <select id="getCarByPrice" resultType="Car">
+        select * from sys_car where 1=1 order by price
+    </select>
+    <select id="getCarByNum" resultType="Car">
+        select * from sys_car where 1=1 order by number
+    </select>
+    <select id="getCarById" resultType="Car">
+        select * from sys_car where id=#{id}
+    </select>
+    <select id="getCar" resultType="Car">
+        select * from sys_car
+    </select>
+    <delete id="delete">
+        delete from sys_car where id=#{id}
+    </delete>
+    <insert id="add">
+        insert into sys_car (name,type,sitnum,price,picture) values
+         (#{name},#{type},#{sitnum},#{price},#{picture})
+    </insert>
+    <update id="update">
+        update sys_car set name=#{name},type=#{type},sitnum=#{sitnum},price=#{price},picture=#{picture}
+        where id=#{id}
+    </update>
+    <sql id="fuzzyFinlly">
+    <if test="name != null and name != ''">
+        AND name LIKE '%${name}%'
+    </if>
+    </sql>
+    <select id="getByLike" resultType="Car">
+        select * from sys_car where 1=1
+        <include refid="fuzzyFinlly"/>
+        <if test="start != null">
+            limit #{start}, #{rows}
+        </if>
+    </select>
+    <select id="getCount" resultType="int">
+        select count(1) from sys_car
+        <include refid="fuzzyFinlly"/>
+    </select>
+
+</mapper>

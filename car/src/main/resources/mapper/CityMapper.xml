@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qf.mapper.CityMapper">
+    <select id="getCityById" resultType="com.qf.entity.City">
+        select * from sys_city where id=#{id}
+    </select>
+    <select id="getCityByPid" resultType="com.qf.entity.City">
+        select * from sys_city
+        <if test="pid!=null">
+            where pid=#{pid}
+        </if>
+    </select>
+    <insert id="add">
+        insert into sys_city (name) values  (#{name})
+    </insert>
+    <update id="update">
+        update sys_city set name=#{name} where id=#{id}
+    </update>
+
+</mapper>

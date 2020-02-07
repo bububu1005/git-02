@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bu.mapper.CustomerMapper">
+    <select id="getCustomer" resultType="com.bu.entity.Customer">
+        select * from customer
+    </select>
+    <delete id="delete">
+        delete from customer where id=#{id}
+    </delete>
+    <select id="login" resultType="com.bu.entity.Customer">
+        select * from customer where name=#{name} and pwd=#{pwd}
+    </select>
+    <insert id="add">
+        insert into customer (name,pwd) values (#{name},#{pwd})
+    </insert>
+</mapper>

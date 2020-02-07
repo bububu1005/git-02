@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="above" align="center">
+    <h2>欢迎<span th:text="${session.customer.name}"></span>来到书店管理系统</h2>
+    <p ><a href="/order/logout">退出</a></p>
+    <h4>图书列表</h4>
+    <h3><a href="/book/showBook">浏览所有图书</a></h3>
+    <!--<select name="classid">
+        <option>请选择分类</option>
+        <tr th:each="class : ${classList}">
+            <option th:value="${class.id}"><span th:text="${class.name}"></span></option>
+        </tr>
+    </select>-->
+    <div>
+        <a href="/book/showBookByCid?cid=+1">js</a>&nbsp&nbsp
+        <a href="/book/showBookByCid?cid=+2">java</a>&nbsp&nbsp
+        <a href="/book/showBookByCid?cid=+3">web</a>&nbsp&nbsp
+        <a href="/order/getOrder">查看购物车</a>
+    </div>
+</div>
+<div align="center">
+    <table border="1px">
+        <tr>
+            <td th:each="book : ${bookList.list}">
+                <table>
+                    <tr>
+                        <td colspan ="2" align="center">
+                            <img th:src="@{${book.path}}" height="80px" width="50px">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">书名：</td>
+                        <td th:text="${book.bookname}" align="left"></td>
+                    </tr>
+                    <tr>
+                        <td align="right">作者：</td>
+                        <td th:text="${book.author}" align="left"></td>
+                    </tr>
+                    <tr>
+                        <td align="right">价格：</td>
+                        <td th:text="${book.price}" align="left"></td>
+                    </tr>
+                    <tr>
+                        <td colspan ="2" align="center">
+                            <a th:href="@{/order/addCar(bid=${book.id})}" style="color:blue">加入购物车</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="9"align="conter">
+                            <a th:if="${isFirstPage}" href="/book/showBookByCid">
+                                <span aria-hidden="true">首页</span></a>
+                            <a th:if="${not isFirstPage}" th:href="@{/book/showBookByCid(pageNum=${pageNum-1},pageSize=${pageSize})}">
+                                <span aria-hidden="true">上一页</span></a>
+                            <a>当前页:<span th:text="${pageNum}"></span>/<span th:text="${totalPages}"></span></a>
+                            <a th:if="${not isLastPage}" th:href="@{/book/showBookByCid(pageNum=${pageNum+1},pageSize=${pageSize})}">
+                                <span aria-hidden="true">下一页</span></a>
+                            <a th:if="${isLastPage}" href="/book/showBookByCid">
+                                <span aria-hidden="true">尾页</span></a>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>

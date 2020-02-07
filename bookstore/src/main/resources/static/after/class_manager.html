@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <style>
+        .content {
+            float: left;
+            border-right: 1px solid black;
+            height: 100%;
+        }
+
+        #div1{
+            float: left;
+
+            width: 80%;
+        }
+        .above{
+            border-bottom:  solid black;
+        }
+        .under{
+            color: red;
+        }
+    </style>
+    <script type="application/javascript" src="../js/jquery.js"></script>
+    <script type="application/javascript" src="../js/jquery-1.12.2.min.js"></script>
+</head>
+<body>
+<div id="content">
+    <div class="content">
+        <h2>信息管理</h2>
+        <ul>
+            <li>书籍管理</li>
+            <ul type="circle">
+                <li><a href="/book/getBook">查看所有书籍</a></li>
+                <li><a href="/book/toAddBook">添加书籍</a></li>
+            </ul>
+        </ul>
+        <ul>
+            <li>书籍分类管理</li>
+            <ul type="circle">
+                <li><a href="/aClass/getClass">查看所有书籍分类</a></li>
+                <li><a href="/aClass/toAdd">添加书籍分类</a></li>
+            </ul>
+        </ul>
+        <ul>
+            <li>会员管理</li>
+            <ul type="circle">
+                <li><a href="/customer/getCustomer">查看所有会员</a></li>
+                <li><a href="#">敬请期待。。</a></li>
+            </ul>
+        </ul>
+    </div>
+    <div id="div1">
+        <div class="above" >
+            <h2 align="center">欢迎<span th:text="${session.admin.name}"></span>来到书店管理系统</h2>
+            <p align="right"><a href="/admin/logout">退出</a></p>
+        </div>
+
+
+        <table width="800" border="1px" class="table table-bordered" style="text-align: center;margin: auto">
+            <thead>
+            <h2 align="center">书籍列表</h2>
+            <tr>
+                <th>序号</th>
+                <th>分类名称</th>
+                <th>分类说明</th>
+                <th colspan ="2"><span align="center">管理</span></th>
+            </tr>
+            </thead>
+            <div class="noData" id="noda">
+                <tr th:each="class : ${classList}">
+                    <td th:text="${classStat.count}"></td>
+                    <td th:text="${class.name}"></td>
+                    <td th:text="${class.descr}"></td>
+                    <td><a th:href="@{/aClass/toAdd(id=${class.id})}" style="color:red">修改</a></td>
+                    <!--<td><a th:href="@{/aClass/delete(id=${class.id})}" style="color:red">删除</a></td>-->
+                    <td><form><input type="button" style="color:red" value="删除"
+                           th:onclick="checkDel([[${class.id}]],[[${class.name}]])"/></form></td>
+                </tr>
+            </div>
+        </table>
+    </div>
+</div>
+</div>
+
+<script type="text/javascript">
+    function checkDel(cid,name) {
+        if (confirm('是否确定删除  ' + name + '？') == false) {
+            return false
+        } else {
+            $.ajax({
+                url: "/book/getByCid",
+                type: "post",
+                data: cid,
+                success: function (data) {
+                    if (data == "success") {
+                        confirm(name + "类型还有,不能删除");
+                        location.href = "/aClass/getClass";
+                    } else {
+                        confirm("删除成功");
+                        window.location.href = "/aClass/getClass";
+                    }
+                }
+            });
+        }
+    }
+
+</script>
+</body>
+</html>

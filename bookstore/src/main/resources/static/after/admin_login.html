@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>bootstrap</title>
+
+    <script type="application/javascript" src="../js/jquery.js"></script>
+    <script type="application/javascript" src="../js/jquery-1.12.2.min.js"></script>
+</head>
+
+<body>
+<div class="container" align="center">
+    <form>
+        <h2 class="form-signin-heading" align="center">管理员登录</h2>
+        <table>
+            <tr>
+                <td colspan="2"><span id="span"></span></td>
+            </tr>
+            <tr>
+                <td><label>请输入用户名</label></td>
+                <td><input type="text" id="name" name="name" placeholder="请输入用户名" required ></td>
+            </tr>
+            <tr>
+                <td><label>请输入密码</label></td>
+                <td><input type="password" id="password" name="pwd" placeholder="请输入密码" required ></td>
+            </tr>
+        </table>
+        <!--<div class="" style="padding: 20px 0px 20px;">
+        <label>
+            管理员：<input type="radio" value="remember-me" name="login" required="true"/>
+            会员：<input type="radio" value="remember-me" name="login" required="true"/>
+        </label>
+    </div>-->
+        <div style="padding: 20px 0px 20px;">
+            <span>
+                <button type="button" onclick="goLogin()">登录</button>
+                <button type="button" onclick="register()">注册</button>
+            </span>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    function goLogin() {
+        $.ajax({
+            url:"/admin/login",
+            type:"post",
+            data:$("form").serialize(),
+            success:function(data) {
+                if (data == 'success') {
+                    //alert("登录成功");
+                    location.href = "/book/getBook";
+                } else {
+                    //alert("用户民密码错误");
+                    $("#span").text("用户名密码错误，请检查后输入");
+                }
+            }
+        });
+    }
+    function register() {
+        window.location.href="/after/admin_register.html"
+    }
+</script>
+</body>
+</html>

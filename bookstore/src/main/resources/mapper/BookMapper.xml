@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bu.mapper.BookMapper">
+    <resultMap id="BookMap" type="com.bu.entity.Book">
+        <id property="id" column="id"></id>
+        <result property="bookname" column="bookname"></result>
+        <result property="author" column="author"></result>
+        <result property="price" column="price"></result>
+        <result property="classid" column="classid"></result>
+        <result property="descr" column="descr"></result>
+        <result property="path" column="path"></result>
+        <association property="aClass" javaType="com.bu.entity.Class">
+            <id property="id" column="id"></id>
+            <result property="name" column="name"></result>
+        </association>
+    </resultMap>
+    <select id="getBook" resultMap="BookMap">
+        select * from book,class where book.classid=class.id
+
+    </select>
+    <select id="getCount" resultType="int">
+        select count(1) from book
+    </select>
+    <insert id="addBook">
+        insert into book (bookname,author,price,classid,descr,path)
+         values (#{bookname},#{author},#{price},#{classid},#{descr},#{path})
+    </insert>
+    <update id="update">
+        update book set bookname=#{bookname},author=#{author},price=#{price},
+        classid=#{classid},descr=#{descr},path=#{path}
+        where id=#{id}
+    </update>
+    <select id="getById" resultType="com.bu.entity.Book">
+        select * from book where id=#{id}
+    </select>
+    <delete id="delete">
+        delete from book where id=#{id}
+    </delete>
+    <select id="getByCid" resultType="com.bu.entity.Book">
+        select * from book where classid=#{classid}
+    </select>
+</mapper>

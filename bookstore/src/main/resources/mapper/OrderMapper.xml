@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bu.mapper.OrderMapper">
+    <resultMap id="orderMap" type="com.bu.entity.Order">
+        <id property="id" column="id"></id>
+        <result property="cid" column="cid"></result>
+        <result property="bid" column="bid"></result>
+        <result property="num" column="num"></result>
+        <association property="book" javaType="com.bu.entity.Book">
+            <id property="id" column="id"></id>
+            <result property="bookname" column="bookname"></result>
+            <result property="author" column="author"></result>
+            <result property="price" column="price"></result>
+            <result property="path" column="path"></result>
+        </association>
+    </resultMap>
+    <select id="getOrder" resultMap="orderMap">
+        select * from `order`,book
+        where `order`.cid=#{cid}
+        and `order`.bid=book.id
+    </select>
+    <select id="getCountByCid" resultType="int">
+        select count(1) from `order` where cid=#{cid}
+    </select>
+    <delete id="delete">
+        delete from `order` where id=#{id}
+    </delete>
+    <delete id="deleteAll">
+        delete from `order` where cid=#{cid}
+    </delete>
+    <select id="getByBidCid" resultType="com.bu.entity.Order">
+        select * from `order` where cid=#{cid} and bid=#{bid}
+    </select>
+    <update id="update">
+        update `order` set num=num+1 where id=#{id}
+    </update>
+    <insert id="add">
+        insert into `order` (cid,bid,num) values (#{cid},#{bid},1)
+    </insert>
+</mapper>

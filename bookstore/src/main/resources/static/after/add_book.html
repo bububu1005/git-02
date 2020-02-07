@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <style>
+        .content {
+            float: left;
+            border-right: 1px solid black;
+            height: 100%;
+        }
+
+        #div1{
+            float: left;
+
+            width: 80%;
+        }
+        .above{
+            border-bottom:  solid black;
+        }
+        .under{
+            color: red;
+        }
+    </style>
+    <script type="application/javascript" src="../js/jquery.js"></script>
+    <script type="application/javascript" src="../js/jquery-1.12.2.min.js"></script>
+</head>
+<body>
+<div id="content">
+    <div class="content">
+        <h2>信息管理</h2>
+        <ul>
+            <li>书籍管理</li>
+            <ul type="circle">
+                <li><a href="/book/getBook">查看所有书籍</a></li>
+                <li><a href="/book/toAddBook">添加书籍</a></li>
+            </ul>
+        </ul>
+        <ul>
+            <li>书籍分类管理</li>
+            <ul type="circle">
+                <li><a href="/aClass/getClass">查看所有书籍分类</a></li>
+                <li><a href="/aClass/toAdd">添加书籍分类</a></li>
+            </ul>
+        </ul>
+        <ul>
+            <li>会员管理</li>
+            <ul type="circle">
+                <li><a href="/customer/getCustomer">查看所有会员</a></li>
+                <li><a href="#">敬请期待。。</a></li>
+            </ul>
+        </ul>
+    </div>
+    <div id="div1">
+        <div class="above" >
+            <h2 align="center">欢迎<span th:text="${session.admin.name}"></span>来到书店管理系统</h2>
+            <p align="right"><a href="/admin/logout">退出</a></p>
+        </div>
+        <h2 align="center">书籍列表</h2>
+        <form action="/book/addBook" method="post">
+        <table align="center">
+            <input type="hidden" name="id" th:value="*{book.id}">
+            <tr>
+                <td>书名</td>
+                <td><input type="text" name="bookname" th:value="*{book.bookname}"></td>
+            </tr>
+            <tr>
+                <td>作者</td>
+                <td><input type="text" name="author" th:value="*{book.author}"></td>
+            </tr>
+            <tr>
+                <td>价格</td>
+                <td><input type="text" name="price" th:value="*{book.price}"></td>
+            </tr>
+            <tr>
+                <td>封面</td>
+                <td><input type="file" name="path " id="files" accept="images/*" onchange="uploadimg()">
+                <!--<img src="" alt="..." id="imgs" class="img-thumbnail" height="130px" width="130px" >--></td>
+            </tr>
+            <tr>
+                <td>描述</td>
+                <td><input type="text" name="descr" th:value="*{book.descr}"></td>
+            </tr>
+            <tr>
+                <td>所属分类</td>
+                <td>
+                    <select name="classid">
+                        <option>请选择分类</option>
+                        <ul th:each="class : ${classList}">
+                        <li><option th:value="${class.id}"><span th:text="${class.name}"></span></option></li>
+                        </ul>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="保存"></td>
+                <td><input type="reset" value="重置">
+                    <input type="button" value="返回" onclick="history.back()"></td>
+            </tr>
+
+        </table>
+        </form>
+
+    </div>
+
+
+</div>
+</div>
+<script>
+    //上传图片
+    function uploadimg(){
+        var reads=new FileReader();
+        var file=document.getElementById("files").files[0];
+        reads.readAsDataURL(file);
+        console.log(reads);
+        reads.onload=function(e){
+            document.getElementById("imgs").src=this.result;
+        };
+    }
+</script>
+</body>
+</html>

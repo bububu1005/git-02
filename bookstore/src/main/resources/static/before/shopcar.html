@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="above" align="center">
+    <h2><span th:text="${session.customer.name}"></span>的购物车</h2>
+    <h3><a href="/book/showBook">返回继续浏览</a></h3>
+</div>
+<div align="center">
+    <table border="1px">
+        <tr>
+            <td>序号</td>
+            <td>封面</td>
+            <td>书名</td>
+            <td>作者</td>
+            <td>单价</td>
+            <td>操作</td>
+        </tr>
+        <tr th:each="order : ${orderList}">
+            <td th:text="${orderStat.count}"></td>
+            <td ><img th:src="@{${order.book.path}}" height="50px" width="50px"></td>
+            <td th:text="${order.book.bookname}"></td>
+            <td th:text="${order.book.author}"></td>
+            <td th:text="${order.book.price}"></td>
+            <td><a th:href="@{/order/delete(id=${order.id})}" style="color:red">删除</a></td>
+        </tr>
+        <tr>
+            <td colspan ="6" align="right"><a href="/order/deleteAll">清空购物车</a></td>
+        </tr>
+        <tr>
+            <td colspan ="6" align="right">
+                总数量：<span th:text="${num}"></span>
+                总价格: <span th:text="${price}"></span>
+            </td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>
